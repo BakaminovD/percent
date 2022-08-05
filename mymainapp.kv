@@ -1,0 +1,110 @@
+#:kivy 2.0.0
+
+<MainWindow>:
+    BoxLayout:
+        orientation: 'vertical'
+        MDToolbar:
+            title: 'Реестры'
+        Widget:
+        MDRoundFlatIconButton:
+            icon: "account-multiple-check-outline"
+            text: "Мои должники"
+            font_size: '24sp'
+            size_hint: 0.4, 0.3
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_press: 
+                app.make_list_units()
+                root.manager.current = 'my_units'
+        Widget:
+        MDRoundFlatIconButton:
+            icon: "account-plus-outline"
+            text: "Добавить должника"
+            font_size: '24sp'
+            size_hint: 0.4, 0.3
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_press: root.manager.current = 'new_unit'
+        Widget:
+
+<NewUnit>:
+    BoxLayout:
+        orientation: 'vertical'
+        MDToolbar:
+            title: 'Новый должник'
+        Widget:
+        MDTextField:
+            id: name_unit
+            hint_text: "Введите название должника"
+            mode: "fill"
+            size_hint: 0.9, 0.7
+            pos_hint: {"center_x": .5, "center_y": .5}
+        Widget:
+        MDTextField:
+            id: adress_unit
+            hint_text: "Введите адрес должника"
+            mode: "fill"
+            size_hint: 0.9, 0.7
+            pos_hint: {"center_x": .5, "center_y": .5}
+        Widget:
+        Widget:
+        FloatLayout:
+            MDRoundFlatIconButton:
+                icon: "arrow-left"
+                text: "Назад"
+                font_size: '18sp'
+                pos_hint: {'x':.1, 'y':.5}
+                on_press: root.manager.current = 'main'
+            MDRoundFlatIconButton:
+                icon: "account-plus-outline"
+                text: "Добавить"
+                font_size: '18sp'
+                pos_hint: {'x':.7, 'y':.5}
+                on_press:
+                    app.add_unit()
+                    root.manager.current = 'main'
+
+
+<MyUnits>:
+    BoxLayout:
+        orientation: 'vertical'
+        MDToolbar:
+            title: 'Мои должники'
+        ScrollView:
+            bar_width: 8
+            scroll_type: ['bars', 'content']
+            MDList:
+                id: my_units_list
+        MDBottomNavigation:
+            size_hint: 1, .1
+            pos_hint: {'x':0, 'y':1}
+            MDBottomNavigationItem:
+                name: "screen 1"
+                text: 'назад'
+                icon: 'arrow-left'
+                on_tab_press: root.manager.current = 'main'
+            MDBottomNavigationItem:
+                name: "screen 2"
+                text: 'изменить'
+                icon: 'pencil-outline'
+                on_tab_press: root.manager.current = 'main'
+            MDBottomNavigationItem:
+                name: "screen 3"
+                text: 'удалить'
+                icon: 'delete-circle-outline'
+                on_tab_press: print(root.parent)
+                    #root.manager.current = 'main'
+
+<MyPopup>:
+    title: 'Необходимо ввести название должника!'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Widget:
+        BoxLayout:
+            Widget:
+            MDRectangleFlatButton:
+                text: 'Ok'
+                on_press: app.dialog_dismiss()
+
+<MyListItem>:
+    id: my_list
+    on_press: root.choice_unit()
